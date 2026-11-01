@@ -1,7 +1,7 @@
 import SwiftUI
 import Playgrounds
 
-struct ContentView: View {
+struct HomeView: View {
     var body: some View {
         Text("Hello, world!")
             .padding()
@@ -9,7 +9,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    HomeView()
 }
 
 #Playground {
