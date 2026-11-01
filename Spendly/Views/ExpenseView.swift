@@ -18,7 +18,7 @@ struct ExpenseView: View {
                         .keyboardType(.decimalPad)
                     Picker("Category", selection: $viewModel.category) {
                         ForEach(Category.allCases, id: \.self) { category in
-                            Text(category.rawValue.capitalized).tag(category)
+                            Text(category.title).tag(category)
                         }
                     }
                 }
