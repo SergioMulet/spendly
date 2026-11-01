@@ -8,11 +8,11 @@ final class SettingsViewModel {
     }
     
     var iCloudSync: Bool {
-        didSet { UserDefaults.standard.set(currencyCode, forKey: "currencyCode") }
+        didSet { UserDefaults.standard.set(iCloudSync, forKey: "iCloudSync") }
     }
     
     var faceIDLock: Bool {
-        didSet { UserDefaults.standard.set(currencyCode, forKey: "currencyCode") }
+        didSet { UserDefaults.standard.set(faceIDLock, forKey: "faceIDLock") }
     }
     
     init() {
