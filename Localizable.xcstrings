@@ -31,12 +31,42 @@
         }
       }
     },
+    "Car" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coche"
+          }
+        }
+      }
+    },
     "Category" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Categoría"
+          }
+        }
+      }
+    },
+    "Clothes" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ropa"
+          }
+        }
+      }
+    },
+    "Communication" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comunicación"
           }
         }
       }
@@ -81,6 +111,16 @@
         }
       }
     },
+    "Entertainment" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocio"
+          }
+        }
+      }
+    },
     "Euro (€)" : {
       "localizations" : {
         "es" : {
@@ -121,12 +161,42 @@
         }
       }
     },
+    "Food" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comida"
+          }
+        }
+      }
+    },
     "General" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "General"
+          }
+        }
+      }
+    },
+    "Gifts" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regalos"
+          }
+        }
+      }
+    },
+    "Health" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salud"
           }
         }
       }
@@ -152,12 +222,32 @@
         }
       }
     },
+    "House" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Casa"
+          }
+        }
+      }
+    },
     "iCloud sync" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Sincronización con iCloud"
+          }
+        }
+      }
+    },
+    "Language" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma"
           }
         }
       }
@@ -182,12 +272,32 @@
         }
       }
     },
+    "Pet" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mascota"
+          }
+        }
+      }
+    },
     "Privacy" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Privacidad"
+          }
+        }
+      }
+    },
+    "Restaurant" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurante"
           }
         }
       }
@@ -222,12 +332,32 @@
         }
       }
     },
+    "Sport" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deporte"
+          }
+        }
+      }
+    },
     "Title" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Título"
+          }
+        }
+      }
+    },
+    "Transport" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transporte"
           }
         }
       }

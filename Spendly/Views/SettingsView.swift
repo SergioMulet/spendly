@@ -13,6 +13,14 @@ struct SettingsView: View {
                     } label: {
                         SettingsLabel("Currency", systemImage: "eurosign", color: .orange)
                     }
+                    
+                    Picker(selection: $viewModel.language) {
+                        ForEach(Language.allCases, id: \.self) { language in
+                            Text(verbatim: language.displayName).tag(language)
+                        }
+                    } label: {
+                        SettingsLabel("Language", systemImage: "globe", color: .teal)
+                    }
                 }
                 
                 Section {
