@@ -3,6 +3,7 @@ import SwiftUI
 // TODO: Improve calendar
 struct HomeView: View {
     @State private var viewModel = HomeViewModel()
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         List {
@@ -59,7 +60,10 @@ struct HomeView: View {
             ExpenseView(date: viewModel.selectedDate)
         }
         .task(id: viewModel.month) {
-            await viewModel.loadExpenses()
+            await viewModel.refresh()
+        }
+        .onChange(of: scenePhase) { _, phase in
+            Task { await viewModel.refresh(isActive: phase == .active) }
         }
         .alert("Could not load expenses", isPresented: $viewModel.showingError) {
             Button("OK", role: .cancel) {}

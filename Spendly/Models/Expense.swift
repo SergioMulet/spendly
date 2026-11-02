@@ -1,7 +1,7 @@
 import Foundation
 
 enum Category: String, CaseIterable, Codable {
-    case house, sport, car, entertainment, restaurant, communication, food, transport, pet, clothes, gifts, health
+    case house, sport, car, entertainment, restaurant, communication, food, transport, pet, clothes, gifts, health, other
     
     var title: LocalizedStringResource {
         switch self {
@@ -17,6 +17,7 @@ enum Category: String, CaseIterable, Codable {
         case .clothes: "Clothes"
         case .gifts: "Gifts"
         case .health: "Health"
+        case .other: "Other"
         }
     }
 }
