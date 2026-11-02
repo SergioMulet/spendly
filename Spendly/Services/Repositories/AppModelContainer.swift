@@ -11,10 +11,11 @@ enum AppModelContainer {
     }()
     
     /// An in-memory container is used by tests, so they never touch the user's data.
+    /// SwiftData's own CloudKit sync is turned off: iCloud sync is done by `iCloudExpenseRepository`.
     static func make(inMemory: Bool = false) throws -> ModelContainer {
         try ModelContainer(
             for: ExpenseEntity.self, PendingTransactionEntity.self, MerchantCategoryEntity.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: inMemory)
+            configurations: ModelConfiguration(isStoredInMemoryOnly: inMemory, cloudKitDatabase: .none)
         )
     }
 }

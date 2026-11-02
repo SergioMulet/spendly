@@ -10,7 +10,7 @@ struct HomeCalendarTests {
         for (amount, date) in [(10.0, firstDay), (5.0, firstDay), (7.0, secondDay)] {
             try await store.expenses.save(Expense(title: "E", amount: amount, date: date, category: .food))
         }
-        let home = HomeViewModel(repository: store.expenses, importer: store.importer)
+        let home = store.homeViewModel()
         
         await home.loadExpenses()
         
@@ -23,7 +23,7 @@ struct HomeCalendarTests {
         let lastMonth = try #require(Calendar.current.date(byAdding: .month, value: -1, to: .now))
         try await store.expenses.save(Expense(title: "This month", amount: 10, date: .now, category: .food))
         try await store.expenses.save(Expense(title: "Last month", amount: 20, date: lastMonth, category: .food))
-        let home = HomeViewModel(repository: store.expenses, importer: store.importer)
+        let home = store.homeViewModel()
         await home.loadExpenses()
         #expect(home.monthTotal == 10)
         

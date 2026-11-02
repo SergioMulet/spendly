@@ -10,6 +10,7 @@ final class ExpenseEntity {
     var amount = 0.0
     var date = Date()
     var category = Category.house
+    var updatedAt = Date()
     
     init(_ expense: Expense) {
         id = expense.id
@@ -21,9 +22,10 @@ final class ExpenseEntity {
         amount = expense.amount
         date = expense.date
         category = expense.category
+        updatedAt = expense.updatedAt
     }
     
     var expense: Expense {
-        Expense(id: id, title: title, amount: amount, date: date, category: category)
+        Expense(id: id, title: title, amount: amount, date: date, category: category, updatedAt: updatedAt)
     }
 }

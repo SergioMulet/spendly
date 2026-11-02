@@ -11,7 +11,9 @@
         }
       }
     },
-    "%lld" : {},
+    "%lld" : {
+
+    },
     "Add Wallet payment" : {
       "localizations" : {
         "es" : {
@@ -72,6 +74,16 @@
         }
       }
     },
+    "Check your connection and try again." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprueba tu conexión e inténtalo de nuevo."
+          }
+        }
+      }
+    },
     "Clothes" : {
       "localizations" : {
         "es" : {
@@ -128,6 +140,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No se pudo guardar el gasto"
+          }
+        }
+      }
+    },
+    "Could not turn on iCloud sync" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo activar la sincronización con iCloud"
           }
         }
       }
@@ -450,6 +472,17 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Ajustes"
+          }
+        }
+      }
+    },
+    "Sign in to iCloud in the Settings app to sync your expenses." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia sesión en iCloud en la app Ajustes para sincronizar tus gastos."
           }
         }
       }

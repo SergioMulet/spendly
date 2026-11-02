@@ -72,7 +72,7 @@ struct HomeViewModelRefreshTests {
     @Test func refreshImportsPendingPaymentsIntoTheMonthList() async throws {
         let store = try TestStore()
         try await store.pending.add(PendingTransaction(amount: 15, merchant: "Kiosko", date: .now))
-        let home = HomeViewModel(repository: store.expenses, importer: store.importer)
+        let home = store.homeViewModel()
         
         await home.refresh()
         

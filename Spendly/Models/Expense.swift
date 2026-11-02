@@ -22,10 +22,12 @@ enum Category: String, CaseIterable, Codable {
     }
 }
 
-struct Expense: Identifiable, Sendable {
+nonisolated struct Expense: Identifiable, Sendable, Equatable {
     var id = UUID()
     var title: String
     var amount: Double
     var date: Date
     var category: Category
+    /// When the expense was last changed. iCloud sync keeps the most recent version.
+    var updatedAt = Date()
 }

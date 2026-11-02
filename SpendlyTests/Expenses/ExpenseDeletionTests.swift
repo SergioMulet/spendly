@@ -30,7 +30,7 @@ struct ExpenseDeletionTests {
         let bus = Expense(title: "Bus", amount: 2, date: .now, category: .transport)
         try await store.expenses.save(lunch)
         try await store.expenses.save(bus)
-        let home = HomeViewModel(repository: store.expenses, importer: store.importer)
+        let home = store.homeViewModel()
         await home.loadExpenses()
         
         await home.delete(lunch)
@@ -47,7 +47,7 @@ struct ExpenseDeletionTests {
         let bus = Expense(title: "Bus", amount: 2, date: .now, category: .transport)
         let oldLunch = Expense(title: "Old lunch", amount: 5, date: lastYear, category: .restaurant)
         for expense in [lunch, dinner, bus, oldLunch] { try await store.expenses.save(expense) }
-        let home = HomeViewModel(repository: store.expenses, importer: store.importer)
+        let home = store.homeViewModel()
         await home.loadExpenses()
         let restaurantGroup = try #require(home.groups.first { $0.category == .restaurant })
         
