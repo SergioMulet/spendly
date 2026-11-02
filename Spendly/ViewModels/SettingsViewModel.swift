@@ -7,6 +7,10 @@ final class SettingsViewModel {
         didSet { UserDefaults.standard.set(currencyCode, forKey: "currencyCode") }
     }
     
+    var language: Language {
+        didSet { UserDefaults.standard.set(language.rawValue, forKey: "language") }
+    }
+    
     var iCloudSync: Bool {
         didSet { UserDefaults.standard.set(iCloudSync, forKey: "iCloudSync") }
     }
@@ -18,6 +22,7 @@ final class SettingsViewModel {
     init() {
         let defaults = UserDefaults.standard
         currencyCode = defaults.string(forKey: "currencyCode") ?? "EUR"
+        language = defaults.string(forKey: "language").flatMap(Language.init) ?? .deviceDefault
         iCloudSync = defaults.object(forKey: "iCloudSync") as? Bool ?? true
         faceIDLock = defaults.bool(forKey: "faceIDLock")
     }
