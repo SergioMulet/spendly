@@ -6,6 +6,7 @@ final class HomeViewModel {
     var selectedDate = Date()
     var showingAddExpense = false
     var showingError = false
+    private(set) var errorTitle: LocalizedStringResource = "Could not load expenses"
     private(set) var groups: [ExpenseGroup] = []
     
     private let repository: ExpenseRepository
@@ -34,6 +35,7 @@ final class HomeViewModel {
         do {
             try await importer.importPending()
         } catch {
+            errorTitle = "Could not import payments"
             showingError = true
         }
         await loadExpenses()
@@ -52,6 +54,26 @@ final class HomeViewModel {
                 .map { ExpenseGroup(category: $0.key, expenses: $0.value) }
                 .sorted { $0.total > $1.total }
         } catch {
+            errorTitle = "Could not load expenses"
+            showingError = true
+        }
+    }
+    
+    func delete(_ expense: Expense) async {
+        await delete(ids: [expense.id])
+    }
+    
+    /// Deletes every expense of the group, which only holds the selected month's expenses.
+    func delete(_ group: ExpenseGroup) async {
+        await delete(ids: group.expenses.map(\.id))
+    }
+    
+    private func delete(ids: [UUID]) async {
+        do {
+            try await repository.delete(ids: ids)
+            await loadExpenses()
+        } catch {
+            errorTitle = "Could not delete expense"
             showingError = true
         }
     }

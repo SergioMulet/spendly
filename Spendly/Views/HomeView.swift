@@ -28,12 +28,26 @@ struct HomeView: View {
                                 Text(expense.date, format: .dateTime.day().month())
                             }
                             .font(.subheadline)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    Task { await viewModel.delete(expense) }
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                         }
                     } label: {
                         HStack {
                             Text(group.category.title)
                             Spacer()
                             Text(group.total, format: .currency(code: viewModel.currencyCode))
+                        }
+                    }
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            Task { await viewModel.delete(group) }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
                         }
                     }
                 }
@@ -65,7 +79,7 @@ struct HomeView: View {
         .onChange(of: scenePhase) { _, phase in
             Task { await viewModel.refresh(isActive: phase == .active) }
         }
-        .alert("Could not load expenses", isPresented: $viewModel.showingError) {
+        .alert(Text(viewModel.errorTitle), isPresented: $viewModel.showingError) {
             Button("OK", role: .cancel) {}
         }
     }
