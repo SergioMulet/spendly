@@ -1,17 +1,45 @@
 import SwiftUI
-import Playgrounds
 
-// TODO: Improve calendar and add list of expenses
+// TODO: Improve calendar
 struct HomeView: View {
     @State private var viewModel = HomeViewModel()
     
     var body: some View {
-        VStack{
-            DatePicker("Select a date", selection: $viewModel.selectedDate, displayedComponents: .date).datePickerStyle(.graphical).padding()
-            Spacer()
-        }
-        List{
+        List {
+            Section {
+                DatePicker("Select a date", selection: $viewModel.selectedDate, displayedComponents: .date)
+                    .datePickerStyle(.graphical)
+            }
             
+            if viewModel.groups.isEmpty {
+                Section {
+                    ContentUnavailableView("No expenses this month", systemImage: "tray")
+                }
+            }
+            Section {
+                ForEach(viewModel.groups) { group in
+                    DisclosureGroup {
+                        ForEach(group.expenses) { expense in
+                            LabeledContent {
+                                Text(expense.amount, format: .currency(code: viewModel.currencyCode))
+                            } label: {
+                                Text(expense.title)
+                                Text(expense.date, format: .dateTime.day().month())
+                            }
+                            .font(.subheadline)
+                        }
+                    } label: {
+                        HStack {
+                            Text(group.category.title)
+                            Spacer()
+                            Text(group.total, format: .currency(code: viewModel.currencyCode))
+                        }
+                    }
+                }
+            } header: {
+                Text("\(Text(viewModel.selectedDate, format: .dateTime.month(.wide))) total expenses: \(Text(viewModel.monthTotal, format: .currency(code: viewModel.currencyCode)))")
+                    .textCase(nil)
+            }
         }
         .overlay(alignment: .bottomTrailing) {
             Button {
@@ -25,10 +53,17 @@ struct HomeView: View {
             }
             .padding()
         }
-        .sheet(isPresented: $viewModel.showingAddExpense){
+        .sheet(isPresented: $viewModel.showingAddExpense, onDismiss: {
+            Task { await viewModel.loadExpenses() }
+        }) {
             ExpenseView(date: viewModel.selectedDate)
         }
-        
+        .task(id: viewModel.month) {
+            await viewModel.loadExpenses()
+        }
+        .alert("Could not load expenses", isPresented: $viewModel.showingError) {
+            Button("OK", role: .cancel) {}
+        }
     }
 }
 

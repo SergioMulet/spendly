@@ -6,8 +6,13 @@ import SwiftData
 actor SwiftDataExpenseRepository: ExpenseRepository {
     static let shared = SwiftDataExpenseRepository(modelContainer: AppModelContainer.shared)
     
-    func fetchAll() async throws -> [Expense] {
-        let descriptor = FetchDescriptor<ExpenseEntity>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+    func fetchExpenses(in interval: DateInterval) async throws -> [Expense] {
+        let start = interval.start
+        let end = interval.end
+        let descriptor = FetchDescriptor<ExpenseEntity>(
+            predicate: #Predicate { $0.date >= start && $0.date < end },
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
         return try modelContext.fetch(descriptor).map(\.expense)
     }
     

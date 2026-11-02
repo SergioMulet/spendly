@@ -9,8 +9,8 @@ struct iCloudExpenseRepository: ExpenseRepository {
         self.repo = local
     }
     
-    func fetchAll() async throws -> [Expense] {
-        try await repo.fetchAll()
+    func fetchExpenses(in interval: DateInterval) async throws -> [Expense] {
+        try await repo.fetchExpenses(in: interval)
     }
     
     func save(_ expense: Expense) async throws {
