@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ total expenses: %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gastos totales de %1$@: %2$@"
+          }
+        }
+      }
+    },
     "Amount" : {
       "localizations" : {
         "es" : {
@@ -67,6 +77,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comunicación"
+          }
+        }
+      }
+    },
+    "Could not load expenses" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudieron cargar los gastos"
           }
         }
       }
@@ -258,6 +278,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nuevo gasto"
+          }
+        }
+      }
+    },
+    "No expenses this month" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin gastos este mes"
           }
         }
       }
