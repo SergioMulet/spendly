@@ -26,4 +26,9 @@ actor SwiftDataExpenseRepository: ExpenseRepository {
         }
         try modelContext.save()
     }
+    
+    func delete(ids: [UUID]) async throws {
+        try modelContext.delete(model: ExpenseEntity.self, where: #Predicate { ids.contains($0.id) })
+        try modelContext.save()
+    }
 }

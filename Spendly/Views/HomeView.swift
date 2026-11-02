@@ -21,19 +21,43 @@ struct HomeView: View {
                 ForEach(viewModel.groups) { group in
                     DisclosureGroup {
                         ForEach(group.expenses) { expense in
-                            LabeledContent {
-                                Text(expense.amount, format: .currency(code: viewModel.currencyCode))
+                            Button {
+                                viewModel.expenseToEdit = expense
                             } label: {
-                                Text(expense.title)
-                                Text(expense.date, format: .dateTime.day().month())
+                                HStack {
+                                    LabeledContent {
+                                        Text(expense.amount, format: .currency(code: viewModel.currencyCode))
+                                    } label: {
+                                        Text(expense.title)
+                                        Text(expense.date, format: .dateTime.day().month())
+                                    }
+                                    Image(systemName: "chevron.right")
+                                        .font(.footnote.weight(.semibold))
+                                        .foregroundStyle(.tertiary)
+                                }
                             }
+                            .foregroundStyle(.primary)
                             .font(.subheadline)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    Task { await viewModel.delete(expense) }
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                         }
                     } label: {
                         HStack {
                             Text(group.category.title)
                             Spacer()
                             Text(group.total, format: .currency(code: viewModel.currencyCode))
+                        }
+                    }
+                    .swipeActions {
+                        Button(role: .destructive) {
+                            Task { await viewModel.delete(group) }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
                         }
                     }
                 }
@@ -59,13 +83,18 @@ struct HomeView: View {
         }) {
             ExpenseView(date: viewModel.selectedDate)
         }
+        .sheet(item: $viewModel.expenseToEdit, onDismiss: {
+            Task { await viewModel.loadExpenses() }
+        }) { expense in
+            ExpenseView(expense: expense)
+        }
         .task(id: viewModel.month) {
             await viewModel.refresh()
         }
         .onChange(of: scenePhase) { _, phase in
             Task { await viewModel.refresh(isActive: phase == .active) }
         }
-        .alert("Could not load expenses", isPresented: $viewModel.showingError) {
+        .alert(Text(viewModel.errorTitle), isPresented: $viewModel.showingError) {
             Button("OK", role: .cancel) {}
         }
     }

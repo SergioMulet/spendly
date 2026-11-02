@@ -91,6 +91,26 @@
         }
       }
     },
+    "Could not delete expense" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo eliminar el gasto"
+          }
+        }
+      }
+    },
+    "Could not import payments" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudieron importar los pagos"
+          }
+        }
+      }
+    },
     "Could not load expenses" : {
       "localizations" : {
         "es" : {
@@ -137,6 +157,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fecha"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar"
+          }
+        }
+      }
+    },
+    "Edit expense" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar gasto"
           }
         }
       }

@@ -17,4 +17,9 @@ struct iCloudExpenseRepository: ExpenseRepository {
         try await repo.save(expense)
         // TODO: push the expense to iCloud (CloudKit). A failure must not fail the save; queue it for retry.
     }
+    
+    func delete(ids: [UUID]) async throws {
+        try await repo.delete(ids: ids)
+        // TODO: delete the expenses from iCloud (CloudKit). A failure must not fail the delete; queue it for retry.
+    }
 }

@@ -5,4 +5,5 @@ import Foundation
 protocol ExpenseRepository: Sendable {
     func fetchExpenses(in interval: DateInterval) async throws -> [Expense]
     func save(_ expense: Expense) async throws
+    func delete(ids: [UUID]) async throws
 }

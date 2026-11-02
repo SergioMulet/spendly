@@ -9,6 +9,10 @@ struct ExpenseView: View {
         _viewModel = State(initialValue: ExpenseViewModel(date: date))
     }
     
+    init(expense: Expense) {
+        _viewModel = State(initialValue: ExpenseViewModel(expense: expense))
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -33,7 +37,7 @@ struct ExpenseView: View {
                     Button("Cancel", role: .cancel) { dismiss() }
                 }
             }
-            .navigationTitle("New expense")
+            .navigationTitle(Text(viewModel.screenTitle))
             .navigationBarTitleDisplayMode(.inline)
             .onChange(of: viewModel.didSave) { dismiss() }
             .alert("Could not save expense", isPresented: $viewModel.showingError) {
