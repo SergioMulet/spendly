@@ -11,6 +11,9 @@
         }
       }
     },
+    "%lld" : {
+
+    },
     "Add Wallet payment" : {
       "localizations" : {
         "es" : {
@@ -423,6 +426,7 @@
       }
     },
     "Select a date" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
