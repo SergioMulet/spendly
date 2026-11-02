@@ -5,6 +5,7 @@ import Observation
 final class HomeViewModel {
     var selectedDate = Date()
     var showingAddExpense = false
+    var expenseToEdit: Expense?
     var showingError = false
     private(set) var errorTitle: LocalizedStringResource = "Could not load expenses"
     private(set) var groups: [ExpenseGroup] = []

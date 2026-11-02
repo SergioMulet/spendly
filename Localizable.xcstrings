@@ -171,6 +171,16 @@
         }
       }
     },
+    "Edit expense" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar gasto"
+          }
+        }
+      }
+    },
     "Entertainment" : {
       "localizations" : {
         "es" : {
