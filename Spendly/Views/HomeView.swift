@@ -8,8 +8,12 @@ struct HomeView: View {
     var body: some View {
         List {
             Section {
-                DatePicker("Select a date", selection: $viewModel.selectedDate, displayedComponents: .date)
-                    .datePickerStyle(.graphical)
+                ExpenseCalendarView(
+                    selectedDate: $viewModel.selectedDate,
+                    visibleMonth: $viewModel.visibleMonth,
+                    dailyTotals: viewModel.dailyTotals,
+                    currencyCode: viewModel.currencyCode
+                )
             }
             
             if viewModel.groups.isEmpty {
@@ -62,7 +66,7 @@ struct HomeView: View {
                     }
                 }
             } header: {
-                Text("\(Text(viewModel.selectedDate, format: .dateTime.month(.wide))) total expenses: \(Text(viewModel.monthTotal, format: .currency(code: viewModel.currencyCode)))")
+                Text("\(Text(viewModel.visibleMonthDate, format: .dateTime.month(.wide))) total expenses: \(Text(viewModel.monthTotal, format: .currency(code: viewModel.currencyCode)))")
                     .textCase(nil)
             }
         }
@@ -88,7 +92,7 @@ struct HomeView: View {
         }) { expense in
             ExpenseView(expense: expense)
         }
-        .task(id: viewModel.month) {
+        .task(id: viewModel.visibleMonth) {
             await viewModel.refresh()
         }
         .onChange(of: scenePhase) { _, phase in
