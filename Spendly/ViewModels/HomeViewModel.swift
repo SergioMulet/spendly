@@ -9,9 +9,11 @@ final class HomeViewModel {
     private(set) var groups: [ExpenseGroup] = []
     
     private let repository: ExpenseRepository
+    private let importer: PendingTransactionImporter
     
-    init(repository: ExpenseRepository? = nil) {
+    init(repository: ExpenseRepository? = nil, importer: PendingTransactionImporter? = nil) {
         self.repository = repository ?? SwiftDataExpenseRepository.shared
+        self.importer = importer ?? PendingTransactionImporter()
     }
     
     /// Changes when the selected date moves to another month, to reload the list.
@@ -25,6 +27,20 @@ final class HomeViewModel {
     
     var monthTotal: Double {
         groups.reduce(0) { $0 + $1.total }
+    }
+    
+    /// Turns pending payments into expenses, then reloads the list.
+    func refresh() async {
+        do {
+            try await importer.importPending()
+        } catch {
+            showingError = true
+        }
+        await loadExpenses()
+    }
+    
+    func refresh(isActive: Bool) async {
+        if isActive { await refresh() }
     }
     
     /// Loads the expenses of the selected month, grouped by category (highest total first).

@@ -14,10 +14,12 @@ final class ExpenseViewModel {
     var showingError = false
     
     private let repository: ExpenseRepository
+    private let merchants: MerchantCategoryRepository
     
-    init(date: Date, repository: ExpenseRepository? = nil) {
+    init(date: Date, repository: ExpenseRepository? = nil, merchants: MerchantCategoryRepository? = nil) {
         self.date = date
         self.repository = repository ?? SwiftDataExpenseRepository.shared
+        self.merchants = merchants ?? SwiftDataMerchantCategoryRepository.shared
     }
     
     var canSave: Bool {
@@ -30,6 +32,8 @@ final class ExpenseViewModel {
         defer { isSaving = false }
         do {
             try await repository.save(createExpense())
+            // Learning the category is a bonus: if it fails, the expense is still saved.
+            try? await merchants.remember(category, for: title)
             didSave = true
         } catch {
             showingError = true

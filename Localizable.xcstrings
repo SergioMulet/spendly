@@ -11,6 +11,16 @@
         }
       }
     },
+    "Add Wallet payment" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir pago de Cartera"
+          }
+        }
+      }
+    },
     "Amount" : {
       "localizations" : {
         "es" : {
@@ -272,6 +282,16 @@
         }
       }
     },
+    "Merchant" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comercio"
+          }
+        }
+      }
+    },
     "New expense" : {
       "localizations" : {
         "es" : {
@@ -298,6 +318,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aceptar"
+          }
+        }
+      }
+    },
+    "Other" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otros"
           }
         }
       }
@@ -338,6 +368,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Guardar"
+          }
+        }
+      }
+    },
+    "Saves a payment so Spendly turns it into an expense." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda un pago para que Spendly lo convierta en un gasto."
           }
         }
       }
