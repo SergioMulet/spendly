@@ -36,7 +36,7 @@ final class ExpenseViewModel {
         amount = expense.amount
         category = expense.category
         self.isEditing = isEditing
-        self.repository = repository ?? SwiftDataExpenseRepository.shared
+        self.repository = repository ?? iCloudExpenseRepository.shared
         self.merchants = merchants ?? SwiftDataMerchantCategoryRepository.shared
     }
     
@@ -63,6 +63,6 @@ final class ExpenseViewModel {
     }
     
     private func createExpense() -> Expense {
-        Expense(id: id, title: title, amount: amount, date: date, category: category)
+        Expense(id: id, title: title, amount: amount, date: date, category: category, updatedAt: .now)
     }
 }

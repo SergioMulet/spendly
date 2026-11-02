@@ -16,10 +16,19 @@ final class HomeViewModel {
     
     private let repository: ExpenseRepository
     private let importer: PendingTransactionImporter
+    private let synchronizer: ExpenseSyncing
+    private let syncSettings: CloudSyncSettings
     
-    init(repository: ExpenseRepository? = nil, importer: PendingTransactionImporter? = nil) {
-        self.repository = repository ?? SwiftDataExpenseRepository.shared
+    init(
+        repository: ExpenseRepository? = nil,
+        importer: PendingTransactionImporter? = nil,
+        synchronizer: ExpenseSyncing? = nil,
+        syncSettings: CloudSyncSettings = CloudSyncSettings()
+    ) {
+        self.repository = repository ?? iCloudExpenseRepository.shared
         self.importer = importer ?? PendingTransactionImporter()
+        self.synchronizer = synchronizer ?? ExpenseSynchronizer.standard()
+        self.syncSettings = syncSettings
     }
     
     var visibleMonthDate: Date {
@@ -34,7 +43,7 @@ final class HomeViewModel {
         groups.reduce(0) { $0 + $1.total }
     }
     
-    /// Turns pending payments into expenses, then reloads the list.
+    /// Turns pending payments into expenses and shows the list; then, if iCloud sync is on, syncs and shows the list again.
     func refresh() async {
         do {
             try await importer.importPending()
@@ -43,6 +52,13 @@ final class HomeViewModel {
             showingError = true
         }
         await loadExpenses()
+        guard syncSettings.isEnabled else { return }
+        do {
+            try await synchronizer.sync()
+            await loadExpenses()
+        } catch {
+            // Offline or signed out of iCloud: the local list is still right, and the next refresh tries again.
+        }
     }
     
     func refresh(isActive: Bool) async {

@@ -92,8 +92,11 @@ struct HomeView: View {
         }) { expense in
             ExpenseView(expense: expense)
         }
-        .task(id: viewModel.visibleMonth) {
+        .task {
             await viewModel.refresh()
+        }
+        .onChange(of: viewModel.visibleMonth) {
+            Task { await viewModel.loadExpenses() }
         }
         .onChange(of: scenePhase) { _, phase in
             Task { await viewModel.refresh(isActive: phase == .active) }

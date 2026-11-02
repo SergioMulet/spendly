@@ -9,7 +9,7 @@ struct PendingTransactionImporter: Sendable {
     init(
         pending: PendingTransactionRepository = SwiftDataPendingTransactionRepository.shared,
         merchants: MerchantCategoryRepository = SwiftDataMerchantCategoryRepository.shared,
-        expenses: ExpenseRepository = SwiftDataExpenseRepository.shared
+        expenses: ExpenseRepository = iCloudExpenseRepository.shared
     ) {
         self.pending = pending
         self.merchants = merchants

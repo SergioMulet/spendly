@@ -18,6 +18,11 @@ struct TestStore {
         PendingTransactionImporter(pending: pending, merchants: merchants, expenses: expenses)
     }
     
+    /// A home screen view model that never syncs, whatever the real settings say.
+    func homeViewModel() -> HomeViewModel {
+        HomeViewModel(repository: expenses, importer: importer, synchronizer: StubSynchronizer(), syncSettings: CloudSyncSettings(defaults: TestDefaults.make()))
+    }
+    
     func allExpenses() async throws -> [Expense] {
         try await expenses.fetchExpenses(in: DateInterval(start: .distantPast, end: .distantFuture))
     }

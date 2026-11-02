@@ -27,6 +27,10 @@ struct SettingsView: View {
                     Toggle(isOn: $viewModel.iCloudSync) {
                         SettingsLabel("iCloud sync", systemImage: "icloud.fill", color: .blue)
                     }
+                    .disabled(viewModel.isSyncing)
+                    .onChange(of: viewModel.iCloudSync) {
+                        Task { await viewModel.iCloudSyncChanged() }
+                    }
                     
                     Button {
                         // TODO: export expenses
@@ -52,6 +56,11 @@ struct SettingsView: View {
                         SettingsLabel("Face Id lock", systemImage: "faceid", color: .indigo)
                     }
                 }
+            }
+            .alert("Could not turn on iCloud sync", isPresented: $viewModel.showingError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(viewModel.errorMessage)
             }
         }
     }
