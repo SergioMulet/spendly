@@ -56,7 +56,7 @@ struct PendingTransactionImporterTests {
         let store = try TestStore()
         let form = ExpenseViewModel(date: .now, repository: store.expenses, merchants: store.merchants)
         form.title = "Mercadona"
-        form.amount = 30
+        form.amountText = "30"
         form.category = .food
         await form.save()
         

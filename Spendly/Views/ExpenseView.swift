@@ -4,6 +4,8 @@ struct ExpenseView: View {
     
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: ExpenseViewModel
+    @FocusState private var amountIsFocused: Bool
+    @State private var amountSelection: TextSelection?
     
     init(date: Date) {
         _viewModel = State(initialValue: ExpenseViewModel(date: date))
@@ -18,8 +20,13 @@ struct ExpenseView: View {
             Form {
                 Section {
                     TextField("Title", text: $viewModel.title)
-                    TextField("Amount", value: $viewModel.amount, format: .currency(code: "EUR"))
+                    TextField("Amount", text: $viewModel.amountText, selection: $amountSelection)
                         .keyboardType(.decimalPad)
+                        .focused($amountIsFocused)
+                        .onChange(of: amountIsFocused) { _, isFocused in
+                            guard isFocused else { return }
+                            amountSelection = TextSelection(range: viewModel.amountText.startIndex..<viewModel.amountText.endIndex)
+                        }
                     Picker("Category", selection: $viewModel.category) {
                         ForEach(Category.allCases, id: \.self) { category in
                             Text(category.title).tag(category)

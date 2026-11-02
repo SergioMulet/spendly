@@ -10,7 +10,7 @@ struct ExpenseEditingTests {
         let form = ExpenseViewModel(expense: original, repository: store.expenses, merchants: store.merchants)
         
         form.title = "Dinner"
-        form.amount = 25
+        form.amountText = "25"
         form.category = .food
         await form.save()
         
