@@ -9,6 +9,10 @@ final class HomeViewModel {
     var showingError = false
     private(set) var errorTitle: LocalizedStringResource = "Could not load expenses"
     private(set) var groups: [ExpenseGroup] = []
+    /// What the user spent on each day (keyed by the start of the day) in the visible month.
+    private(set) var dailyTotals: [Date: Double] = [:]
+    /// The month shown by the calendar. The list and the totals always follow it, even when no day is selected.
+    var visibleMonth = Calendar.current.dateComponents([.year, .month], from: Date())
     
     private let repository: ExpenseRepository
     private let importer: PendingTransactionImporter
@@ -18,9 +22,8 @@ final class HomeViewModel {
         self.importer = importer ?? PendingTransactionImporter()
     }
     
-    /// Changes when the selected date moves to another month, to reload the list.
-    var month: DateComponents {
-        Calendar.current.dateComponents([.year, .month], from: selectedDate)
+    var visibleMonthDate: Date {
+        Calendar.current.date(from: visibleMonth) ?? selectedDate
     }
     
     var currencyCode: String {
@@ -46,11 +49,13 @@ final class HomeViewModel {
         if isActive { await refresh() }
     }
     
-    /// Loads the expenses of the selected month, grouped by category (highest total first).
+    /// Loads the expenses of the visible month, grouped by category (highest total first).
     func loadExpenses() async {
-        guard let interval = Calendar.current.dateInterval(of: .month, for: selectedDate) else { return }
+        guard let interval = Calendar.current.dateInterval(of: .month, for: visibleMonthDate) else { return }
         do {
             let expenses = try await repository.fetchExpenses(in: interval)
+            dailyTotals = Dictionary(grouping: expenses) { Calendar.current.startOfDay(for: $0.date) }
+                .mapValues { $0.reduce(0) { $0 + $1.amount } }
             groups = Dictionary(grouping: expenses, by: \.category)
                 .map { ExpenseGroup(category: $0.key, expenses: $0.value) }
                 .sorted { $0.total > $1.total }
@@ -64,7 +69,7 @@ final class HomeViewModel {
         await delete(ids: [expense.id])
     }
     
-    /// Deletes every expense of the group, which only holds the selected month's expenses.
+    /// Deletes every expense of the group, which only holds the visible month's expenses.
     func delete(_ group: ExpenseGroup) async {
         await delete(ids: group.expenses.map(\.id))
     }
