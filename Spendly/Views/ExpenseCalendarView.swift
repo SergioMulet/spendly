@@ -9,6 +9,7 @@ struct ExpenseCalendarView: View {
     
     @Environment(\.calendar) private var calendar
     @Environment(\.locale) private var locale
+    @State private var isPickingMonth = false
     
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 7)
     
@@ -30,20 +31,36 @@ struct ExpenseCalendarView: View {
                         }
                     }
                 }
+                .gesture(
+                    DragGesture(minimumDistance: 30).onEnded { value in
+                        guard abs(value.translation.width) > abs(value.translation.height) * 2 else { return }
+                        visibleMonth = value.translation.width < 0 ? grid.nextMonth : grid.previousMonth
+                    }
+                )
             }
-            .gesture(
-                DragGesture(minimumDistance: 30).onEnded { value in
-                    guard abs(value.translation.width) > abs(value.translation.height) * 2 else { return }
-                    visibleMonth = value.translation.width < 0 ? grid.nextMonth : grid.previousMonth
-                }
-            )
         }
     }
     
     private func header(for grid: MonthGrid) -> some View {
         HStack {
-            Text(grid.monthStart, format: .dateTime.month(.wide).year())
-                .font(.title3.weight(.semibold))
+            Button {
+                isPickingMonth = true
+            } label: {
+                HStack(spacing: 6) {
+                    Text(grid.monthStart, format: .dateTime.month(.wide).year())
+                        .foregroundStyle(isPickingMonth ? Color.accentColor : Color.primary)
+                    Image(systemName: "chevron.right")
+                        .font(.footnote.weight(.bold))
+                        .rotationEffect(.degrees(isPickingMonth ? 90 : 0))
+                }
+            }
+            // A popover closes by itself when the user taps anywhere else.
+            .popover(isPresented: $isPickingMonth) {
+                monthYearPicker(for: grid)
+                    .frame(width: 280, height: 180)
+                    .padding()
+                    .presentationCompactAdaptation(.popover)
+            }
             Spacer()
             Button {
                 visibleMonth = grid.previousMonth
@@ -58,6 +75,37 @@ struct ExpenseCalendarView: View {
         }
         .font(.title3.weight(.semibold))
         .buttonStyle(.borderless)
+    }
+    
+    private func monthYearPicker(for grid: MonthGrid) -> some View {
+        HStack(spacing: 0) {
+            Picker("Month", selection: monthSelection) {
+                ForEach(Array(grid.monthNames.enumerated()), id: \.offset) { index, name in
+                    Text(verbatim: name).tag(index + 1)
+                }
+            }
+            Picker("Year", selection: yearSelection) {
+                ForEach(grid.years, id: \.self) { year in
+                    Text(verbatim: String(year)).tag(year)
+                }
+            }
+        }
+        .pickerStyle(.wheel)
+        .labelsHidden()
+    }
+    
+    private var monthSelection: Binding<Int> {
+        Binding(
+            get: { visibleMonth.month ?? 1 },
+            set: { visibleMonth = DateComponents(year: visibleMonth.year, month: $0) }
+        )
+    }
+    
+    private var yearSelection: Binding<Int> {
+        Binding(
+            get: { visibleMonth.year ?? 2000 },
+            set: { visibleMonth = DateComponents(year: $0, month: visibleMonth.month) }
+        )
     }
     
     private func dayButton(for day: MonthGrid.Day) -> some View {

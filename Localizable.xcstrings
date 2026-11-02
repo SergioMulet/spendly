@@ -11,9 +11,7 @@
         }
       }
     },
-    "%lld" : {
-
-    },
+    "%lld" : {},
     "Add Wallet payment" : {
       "localizations" : {
         "es" : {
@@ -335,6 +333,16 @@
         }
       }
     },
+    "Month" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes"
+          }
+        }
+      }
+    },
     "New expense" : {
       "localizations" : {
         "es" : {
@@ -482,6 +490,16 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "Dólar estadounidense ($)"
+          }
+        }
+      }
+    },
+    "Year" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Año"
           }
         }
       }

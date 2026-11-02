@@ -58,4 +58,25 @@ struct MonthGridTests {
         
         #expect(days.allSatisfy { calendar.startOfDay(for: $0.date) == $0.date })
     }
+    
+    @Test func monthNamesHaveTwelveEntriesInTheAppLanguage() throws {
+        let english = try grid(year: 2026, month: 11, locale: "en").monthNames
+        let spanish = try grid(year: 2026, month: 11, locale: "es").monthNames
+        
+        #expect(english.count == 12 && english.first == "January" && english.last == "December")
+        #expect(spanish.count == 12 && spanish.first == "enero")
+    }
+    
+    @Test func yearRangeAlwaysIncludesTheShownYear() throws {
+        let calendar = calendar(firstWeekday: 2)
+        let now = try #require(calendar.date(from: DateComponents(year: 2026, month: 11, day: 2)))
+        
+        func years(for year: Int) throws -> ClosedRange<Int> {
+            try #require(MonthGrid(month: DateComponents(year: year, month: 1), calendar: calendar, locale: Locale(identifier: "en"), now: now)).years
+        }
+        
+        #expect(try years(for: 2026) == 1996...2036)
+        #expect(try years(for: 1950).contains(1950))
+        #expect(try years(for: 2100).contains(2100))
+    }
 }

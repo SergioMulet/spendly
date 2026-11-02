@@ -20,9 +20,13 @@ struct MonthGrid {
     let weekdaySymbols: [String]
     let previousMonth: DateComponents
     let nextMonth: DateComponents
+    /// Month names in the app language, January first.
+    let monthNames: [String]
+    /// Years offered by the month picker. It always includes the shown year.
+    let years: ClosedRange<Int>
     
     /// `calendar` decides the first weekday and the dates; `locale` decides the language of the names.
-    init?(month: DateComponents, calendar: Calendar, locale: Locale) {
+    init?(month: DateComponents, calendar: Calendar, locale: Locale, now: Date = .now) {
         guard let monthStart = calendar.date(from: DateComponents(year: month.year, month: month.month)),
               let days = calendar.range(of: .day, in: .month, for: monthStart),
               let previous = calendar.date(byAdding: .month, value: -1, to: monthStart),
@@ -40,7 +44,12 @@ struct MonthGrid {
         let symbols = namesCalendar.shortStandaloneWeekdaySymbols
         let first = calendar.firstWeekday - 1
         
+        let shownYear = calendar.component(.year, from: monthStart)
+        let currentYear = calendar.component(.year, from: now)
+        
         self.monthStart = monthStart
+        monthNames = namesCalendar.standaloneMonthSymbols
+        years = min(currentYear - 30, shownYear)...max(currentYear + 10, shownYear)
         cells = empty + filled
         weekdaySymbols = (symbols[first...] + symbols[..<first]).map { $0.uppercased(with: locale) }
         previousMonth = calendar.dateComponents([.year, .month], from: previous)
