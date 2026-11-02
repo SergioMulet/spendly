@@ -7,13 +7,16 @@ struct AddWalletPaymentIntent: AppIntent {
     static let description = IntentDescription("Saves a payment so Spendly turns it into an expense.")
     
     @Parameter(title: "Amount")
-    var amount: Double
-    
+    var amount: String
+
     @Parameter(title: "Merchant")
     var merchant: String
-    
+
     func perform() async throws -> some IntentResult {
-        let transaction = PendingTransaction(amount: amount, merchant: merchant, date: .now)
+        guard let value = AmountParser.parse(amount) else {
+            throw $amount.needsValueError()
+        }
+        let transaction = PendingTransaction(amount: value, merchant: merchant, date: .now)
         try await SwiftDataPendingTransactionRepository.shared.add(transaction)
         return .result()
     }
