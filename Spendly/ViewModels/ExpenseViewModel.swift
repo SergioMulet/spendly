@@ -6,8 +6,7 @@ import Observation
 final class ExpenseViewModel {
     var date: Date
     var title: String
-    /// What the user types in the amount field.
-    var amountText: String
+    var amount: Double?
     var category: Category
     
     private(set) var isSaving = false
@@ -34,7 +33,7 @@ final class ExpenseViewModel {
         id = expense.id
         date = expense.date
         title = expense.title
-        amountText = expense.amount.formatted(Self.amountFormat)
+        amount = isEditing ? expense.amount : nil
         category = expense.category
         self.isEditing = isEditing
         self.repository = repository ?? iCloudExpenseRepository.shared
@@ -45,13 +44,16 @@ final class ExpenseViewModel {
         isEditing ? "Edit expense" : "New expense"
     }
     
-    /// The typed amount, parsed with the number format of the device ("12,50" or "12.50"). Text that is not a number counts as 0.
-    var amount: Double {
-        (try? Double(amountText, format: .number)) ?? 0
+    /// Symbol of the currency chosen in Settings ("€", "$"...), shown next to the amount.
+    var currencySymbol: String {
+        let code = UserDefaults.standard.string(forKey: "currencyCode") ?? "EUR"
+        var components = Locale.Components(locale: .current)
+        components.currency = Locale.Currency(code)
+        return Locale(components: components).currencySymbol ?? code
     }
     
     var canSave: Bool {
-        amount > 0 && !isSaving
+        (amount ?? 0) > 0 && !isSaving
     }
     
     func save() async {
@@ -75,8 +77,6 @@ final class ExpenseViewModel {
     }
     
     private func createExpense() -> Expense {
-        Expense(id: id, title: title, amount: amount, date: date, category: category, updatedAt: .now)
+        Expense(id: id, title: title, amount: amount ?? 0, date: date, category: category, updatedAt: .now)
     }
-    
-    private static let amountFormat = FloatingPointFormatStyle<Double>.number.grouping(.never).precision(.fractionLength(2))
 }
