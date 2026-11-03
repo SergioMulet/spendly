@@ -10,7 +10,7 @@ struct ExpenseEditingTests {
         let form = ExpenseViewModel(expense: original, repository: store.expenses, merchants: store.merchants)
         
         form.title = "Dinner"
-        form.amountText = "25"
+        form.amount = 25
         form.category = .food
         await form.save()
         
@@ -35,6 +35,21 @@ struct ExpenseEditingTests {
         #expect(form.canSave)
     }
     
+    @Test func aNewExpenseStartsWithoutAmountAndCannotBeSavedUntilItHasOne() async throws {
+        let store = try TestStore()
+        let form = ExpenseViewModel(date: .now, repository: store.expenses, merchants: store.merchants)
+
+        #expect(form.amount == nil)
+        #expect(!form.canSave)
+        await form.save()
+        #expect(try await store.allExpenses().isEmpty)
+
+        form.amount = 12
+        #expect(form.canSave)
+        await form.save()
+        #expect(try await store.allExpenses().first?.amount == 12)
+    }
+
     @Test func recategorizingAnImportedPaymentTeachesTheApp() async throws {
         let store = try TestStore()
         try await store.pending.add(PendingTransaction(amount: 12, merchant: "Mercadona", date: .now))
