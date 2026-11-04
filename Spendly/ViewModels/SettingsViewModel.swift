@@ -25,14 +25,16 @@ final class SettingsViewModel {
     
     private let defaults: UserDefaults
     private let synchronizer: ExpenseSyncing
+    private let authenticator: AuthenticationService
     
-    init(defaults: UserDefaults = .standard, synchronizer: ExpenseSyncing? = nil) {
+    init(defaults: UserDefaults = .standard, synchronizer: ExpenseSyncing? = nil, authenticator: AuthenticationService? = nil) {
         self.defaults = defaults
         self.synchronizer = synchronizer ?? ExpenseSynchronizer.standard()
         currencyCode = defaults.string(forKey: "currencyCode") ?? "EUR"
         language = defaults.string(forKey: "language").flatMap(Language.init) ?? .deviceDefault
         iCloudSync = defaults.bool(forKey: CloudSyncSettings.key)
         faceIDLock = defaults.bool(forKey: "faceIDLock")
+        self.authenticator = authenticator ?? FaceIDService()
     }
     
     /// Turning iCloud sync on downloads what is in iCloud and uploads the local changes. That also checks that the
@@ -55,5 +57,11 @@ final class SettingsViewModel {
             showingError = true
         }
         */
+    }
+    
+    func faceIDLockChanged() async {
+        guard faceIDLock else { return }
+        let confirmed = await authenticator.authenticate(reason: String(localized: "Confirm it is you to turn on the lock"))
+        if !confirmed { faceIDLock = false }
     }
 }

@@ -49,12 +49,13 @@ struct SettingsView: View {
                     Text("Data")
                 } footer: {
                     Text("Expenses stay in sync across your devices")
-                } //section
+                }
                 
                 Section("Privacy") {
                     Toggle(isOn: $viewModel.faceIDLock){
                         SettingsLabel("Face Id lock", systemImage: "faceid", color: .indigo)
                     }
+                    .onChange(of: viewModel.faceIDLock) { Task { await viewModel.faceIDLockChanged() }}
                 }
             }
             .alert("Could not turn on iCloud sync", isPresented: $viewModel.showingError) {

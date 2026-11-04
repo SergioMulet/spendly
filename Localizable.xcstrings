@@ -17,6 +17,46 @@
     "0.00" : {
 
     },
+    "Confirm it is you to turn on the lock" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirma que eres tú para activar el bloqueo"
+          }
+        }
+      }
+    },
+    "Spendly is locked" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spendly está bloqueada"
+          }
+        }
+      }
+    },
+    "Unlock" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear"
+          }
+        }
+      }
+    },
+    "Unlock Spendly" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear Spendly"
+          }
+        }
+      }
+    },
     "Add Wallet payment" : {
       "localizations" : {
         "es" : {
