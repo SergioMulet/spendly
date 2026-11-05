@@ -1,0 +1,12 @@
+<resources>
+    <string name="tab_home">Inicio</string>
+    <string name="tab_settings">Ajustes</string>
+    <string name="section_general">General</string>
+    <string name="section_data">Datos</string>
+    <string name="currency">Moneda</string>
+    <string name="language">Idioma</string>
+    <string name="export_data">Exportar datos</string>
+    <string name="currency_eur">Euro (€)</string>
+    <string name="currency_usd">Dólar estadounidense ($)</string>
+    <string name="currency_gbp">Libra británica (£)</string>
+</resources>

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Spendly</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_settings">Settings</string>
+    <string name="section_general">General</string>
+    <string name="section_data">Data</string>
+    <string name="currency">Currency</string>
+    <string name="language">Language</string>
+    <string name="export_data">Export data</string>
+    <string name="currency_eur">Euro (€)</string>
+    <string name="currency_usd">US Dollar ($)</string>
+    <string name="currency_gbp">British Pound (£)</string>
 </resources>
