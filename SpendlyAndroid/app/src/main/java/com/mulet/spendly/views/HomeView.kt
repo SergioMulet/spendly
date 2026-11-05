@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -107,14 +108,17 @@ fun HomeView(
                 if (isExpanded) {
                     items(group.expenses, key = { it.id }) { expense ->
                         DeletableRow(onDelete = { viewModel.delete(expense) }, resetSignal = errorTitle) {
-                            ListItem(
-                                headlineContent = { Text(expense.title) },
-                                supportingContent = { Text(viewModel.formatDay(expense.date, locale)) },
-                                trailingContent = { Text(viewModel.formatAmount(expense.amount, locale)) },
-                                modifier = Modifier
-                                    .clickable { viewModel.expenseTapped(expense) }
-                                    .padding(start = 16.dp),
-                            )
+                            Column {
+                                ListItem(
+                                    headlineContent = { Text(expense.title) },
+                                    supportingContent = { Text(viewModel.formatDay(expense.date, locale)) },
+                                    trailingContent = { Text(viewModel.formatAmount(expense.amount, locale)) },
+                                    modifier = Modifier
+                                        .clickable { viewModel.expenseTapped(expense) }
+                                        .padding(start = 16.dp),
+                                )
+                                HorizontalDivider()
+                            }
                         }
                     }
                 }
@@ -148,28 +152,30 @@ fun HomeView(
 /** The category row: its name, what was spent on it and an arrow that turns when it is open. */
 @Composable
 private fun ExpenseGroupHeader(group: ExpenseGroup, total: String, isExpanded: Boolean, onClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-    ) {
-        Text(
-            text = stringResource(group.category.titleRes),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.weight(1f),
-        )
-        Text(text = total, style = MaterialTheme.typography.titleMedium)
-        Icon(
-            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = null,
-            modifier = Modifier.rotate(if (isExpanded) 90f else 0f),
-        )
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick)
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+        ) {
+            Text(
+                text = stringResource(group.category.titleRes),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.weight(1f),
+            )
+            Text(text = total, style = MaterialTheme.typography.titleMedium)
+            Icon(
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                modifier = Modifier.rotate(if (isExpanded) 90f else 0f),
+            )
+        }
+        HorizontalDivider()
     }
-    HorizontalDivider()
 }
 
 /** Swiping the row to the left deletes it. [resetSignal] brings the row back when the delete failed. */
