@@ -1,6 +1,9 @@
 package com.mulet.spendly.viewmodels
 
 import android.app.Application
+import android.icu.number.Notation
+import android.icu.number.NumberFormatter
+import android.icu.util.Currency as IcuCurrency
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
@@ -48,6 +51,10 @@ class HomeViewModel(
     private val _groups = MutableStateFlow<List<ExpenseGroup>>(emptyList())
     val groups: StateFlow<List<ExpenseGroup>> = _groups.asStateFlow()
 
+    /** What was spent on each day of the visible month. Days without expenses are not in the map. */
+    private val _dailyTotals = MutableStateFlow<Map<LocalDate, Double>>(emptyMap())
+    val dailyTotals: StateFlow<Map<LocalDate, Double>> = _dailyTotals.asStateFlow()
+
     private val _monthTotal = MutableStateFlow(0.0)
     val monthTotal: StateFlow<Double> = _monthTotal.asStateFlow()
 
@@ -74,6 +81,14 @@ class HomeViewModel(
         NumberFormat.getCurrencyInstance(locale)
             .apply { currency = Currency.getInstance(settings.currency.code) }
             .format(amount)
+
+    /** A short amount to fit under a calendar day, e.g. "12 €" or "1.2K €". */
+    fun formatCompactAmount(amount: Double, locale: Locale): String =
+        NumberFormatter.withLocale(locale)
+            .unit(IcuCurrency.getInstance(settings.currency.code))
+            .notation(Notation.compactShort())
+            .format(amount)
+            .toString()
 
     /** The day and month of an expense, e.g. "5 Nov". */
     fun formatDay(date: LocalDate, locale: Locale): String =
@@ -148,11 +163,13 @@ class HomeViewModel(
 
     private suspend fun loadExpenses() {
         try {
-            val groups = repository.fetchExpenses(_visibleMonth.value)
+            val expenses = repository.fetchExpenses(_visibleMonth.value)
+            val groups = expenses
                 .groupBy { it.category }
                 .map { (category, expenses) -> ExpenseGroup(category, expenses) }
                 .sortedByDescending { it.total }
             _groups.value = groups
+            _dailyTotals.value = expenses.groupBy { it.date }.mapValues { (_, dayExpenses) -> dayExpenses.sumOf { it.amount } }
             _monthTotal.value = groups.sumOf { it.total }
         } catch (e: CancellationException) {
             throw e

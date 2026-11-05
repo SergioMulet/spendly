@@ -3,7 +3,6 @@ package com.mulet.spendly.views
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -34,7 +33,6 @@ fun SettingsView(
 
     Column(
         modifier = modifier
-            .statusBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),

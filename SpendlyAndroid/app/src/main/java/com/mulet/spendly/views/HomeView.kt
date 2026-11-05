@@ -4,12 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -66,9 +66,7 @@ fun HomeView(
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 88.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             item {
                 ExpenseCalendarView(viewModel = viewModel)
@@ -110,14 +108,17 @@ fun HomeView(
                 if (isExpanded) {
                     items(group.expenses, key = { it.id }) { expense ->
                         DeletableRow(onDelete = { viewModel.delete(expense) }, resetSignal = errorTitle) {
-                            ListItem(
-                                headlineContent = { Text(expense.title) },
-                                supportingContent = { Text(viewModel.formatDay(expense.date, locale)) },
-                                trailingContent = { Text(viewModel.formatAmount(expense.amount, locale)) },
-                                modifier = Modifier
-                                    .clickable { viewModel.expenseTapped(expense) }
-                                    .padding(start = 16.dp),
-                            )
+                            Column {
+                                ListItem(
+                                    headlineContent = { Text(expense.title) },
+                                    supportingContent = { Text(viewModel.formatDay(expense.date, locale)) },
+                                    trailingContent = { Text(viewModel.formatAmount(expense.amount, locale)) },
+                                    modifier = Modifier
+                                        .clickable { viewModel.expenseTapped(expense) }
+                                        .padding(start = 16.dp),
+                                )
+                                HorizontalDivider()
+                            }
                         }
                     }
                 }
@@ -151,28 +152,30 @@ fun HomeView(
 /** The category row: its name, what was spent on it and an arrow that turns when it is open. */
 @Composable
 private fun ExpenseGroupHeader(group: ExpenseGroup, total: String, isExpanded: Boolean, onClick: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-    ) {
-        Text(
-            text = stringResource(group.category.titleRes),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.weight(1f),
-        )
-        Text(text = total, style = MaterialTheme.typography.titleMedium)
-        Icon(
-            Icons.AutoMirrored.Filled.KeyboardArrowRight,
-            contentDescription = null,
-            modifier = Modifier.rotate(if (isExpanded) 90f else 0f),
-        )
+    Column {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick)
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+        ) {
+            Text(
+                text = stringResource(group.category.titleRes),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.weight(1f),
+            )
+            Text(text = total, style = MaterialTheme.typography.titleMedium)
+            Icon(
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                modifier = Modifier.rotate(if (isExpanded) 90f else 0f),
+            )
+        }
+        HorizontalDivider()
     }
-    HorizontalDivider()
 }
 
 /** Swiping the row to the left deletes it. [resetSignal] brings the row back when the delete failed. */
