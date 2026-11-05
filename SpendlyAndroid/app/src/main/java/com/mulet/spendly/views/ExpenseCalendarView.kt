@@ -48,6 +48,7 @@ import com.mulet.spendly.viewmodels.HomeViewModel
 fun ExpenseCalendarView(viewModel: HomeViewModel, modifier: Modifier = Modifier) {
     val visibleMonth by viewModel.visibleMonth.collectAsStateWithLifecycle()
     val selectedDate by viewModel.selectedDate.collectAsStateWithLifecycle()
+    val dailyTotals by viewModel.dailyTotals.collectAsStateWithLifecycle()
     val showingMonthPicker by viewModel.showingMonthPicker.collectAsStateWithLifecycle()
     val locale = LocalConfiguration.current.locales[0]
     val grid = viewModel.monthGrid(visibleMonth, locale)
@@ -86,7 +87,14 @@ fun ExpenseCalendarView(viewModel: HomeViewModel, modifier: Modifier = Modifier)
                 Row {
                     week.forEach { day ->
                         Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                            day?.let { DayCell(it, isSelected = it.date == selectedDate, onClick = { viewModel.selectDate(it.date) }) }
+                            day?.let {
+                                DayCell(
+                                    day = it,
+                                    total = dailyTotals[it.date]?.let { total -> viewModel.formatCompactAmount(total, locale) },
+                                    isSelected = it.date == selectedDate,
+                                    onClick = { viewModel.selectDate(it.date) },
+                                )
+                            }
                         }
                     }
                 }
@@ -143,25 +151,39 @@ private fun CalendarHeader(
 }
 
 @Composable
-private fun DayCell(day: MonthGrid.Day, isSelected: Boolean, onClick: () -> Unit) {
+private fun DayCell(day: MonthGrid.Day, total: String?, isSelected: Boolean, onClick: () -> Unit) {
     val textColor = when {
         isSelected -> MaterialTheme.colorScheme.onPrimary
         day.isToday -> MaterialTheme.colorScheme.primary
         else -> MaterialTheme.colorScheme.onSurface
     }
-    Box(
-        contentAlignment = Alignment.Center,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .size(44.dp)
-            .clip(CircleShape)
-            .background(if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent)
+            .fillMaxWidth()
             .clickable(onClick = onClick),
     ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent),
+        ) {
+            Text(
+                text = day.number.toString(),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = if (day.isToday) FontWeight.SemiBold else FontWeight.Normal,
+                color = textColor,
+            )
+        }
+        // Always laid out, so days without expenses keep the same height.
         Text(
-            text = day.number.toString(),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = if (day.isToday) FontWeight.SemiBold else FontWeight.Normal,
-            color = textColor,
+            text = total ?: "",
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            modifier = Modifier.height(16.dp),
         )
     }
 }
