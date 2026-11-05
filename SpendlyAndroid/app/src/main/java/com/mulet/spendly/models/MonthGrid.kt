@@ -26,6 +26,9 @@ class MonthGrid(val month: YearMonth, locale: Locale, today: LocalDate = LocalDa
     /** Month names in the given locale, January first. */
     val monthNames: List<String> = Month.entries.map { it.getDisplayName(TextStyle.FULL_STANDALONE, locale).capitalized(locale) }
 
+    /** The name of the shown month, e.g. "November". */
+    val monthName: String get() = monthNames[month.monthValue - 1]
+
     /** Years offered by the month picker. It always includes the shown year. */
     val years: IntRange = minOf(today.year - 30, month.year)..maxOf(today.year + 10, month.year)
 

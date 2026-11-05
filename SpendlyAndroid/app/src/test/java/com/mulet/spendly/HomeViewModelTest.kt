@@ -1,8 +1,12 @@
 package com.mulet.spendly
 
+import com.mulet.spendly.support.FakeExpenseRepository
+import com.mulet.spendly.support.FakeSettingsRepository
+import com.mulet.spendly.support.MainDispatcherRule
 import com.mulet.spendly.viewmodels.HomeViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Rule
 import org.junit.Test
 import java.time.Clock
 import java.time.Instant
@@ -11,9 +15,12 @@ import java.time.YearMonth
 import java.time.ZoneOffset
 
 class HomeViewModelTest {
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     private val clock = Clock.fixed(Instant.parse("2026-11-05T10:00:00Z"), ZoneOffset.UTC)
 
-    private fun viewModel() = HomeViewModel(clock)
+    private fun viewModel() = HomeViewModel(FakeExpenseRepository(), FakeSettingsRepository(), clock)
 
     @Test
     fun startsOnTodayAndItsMonth() {
