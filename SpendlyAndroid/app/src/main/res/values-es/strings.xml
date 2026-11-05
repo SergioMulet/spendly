@@ -9,4 +9,8 @@
     <string name="currency_eur">Euro (€)</string>
     <string name="currency_usd">Dólar estadounidense ($)</string>
     <string name="currency_gbp">Libra británica (£)</string>
+    <string name="add_expense">Añadir gasto</string>
+    <string name="previous_month">Mes anterior</string>
+    <string name="next_month">Mes siguiente</string>
+    <string name="ok">Aceptar</string>
 </resources>
