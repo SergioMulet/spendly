@@ -17,6 +17,56 @@
     "0.00" : {
 
     },
+    "Add expense" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir gasto"
+          }
+        }
+      }
+    },
+    "Added %@ to %@." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadido %1$@ en %2$@."
+          }
+        }
+      }
+    },
+    "How much was it?" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cuánto ha sido?"
+          }
+        }
+      }
+    },
+    "Registers a new expense in Spendly." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra un nuevo gasto en Spendly."
+          }
+        }
+      }
+    },
+    "The amount must be greater than zero." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El importe debe ser mayor que cero."
+          }
+        }
+      }
+    },
     "Confirm it is you to turn on the lock" : {
       "localizations" : {
         "es" : {

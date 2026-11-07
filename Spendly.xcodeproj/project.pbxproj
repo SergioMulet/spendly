@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4917027B309F5540000F844E /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4917027A309F5540000F844E /* AppShortcuts.xcstrings */; };
 		494A66693097521E0035BD6E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 494A66683097521E0035BD6E /* Localizable.xcstrings */; };
 		9B421585E1330427E3143DF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC323A5661C0F13632834F5D /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* Spendly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spendly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4917027A309F5540000F844E /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
 		494A66683097521E0035BD6E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		642AE9C68DAF4D8E178A2B9D /* SpendlyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendlyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC323A5661C0F13632834F5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -59,6 +61,7 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				4917027A309F5540000F844E /* AppShortcuts.xcstrings */,
 				494A66683097521E0035BD6E /* Localizable.xcstrings */,
 				000000000000000000000010 /* Spendly */,
 				000000000000000000000020 /* Products */,
@@ -174,6 +177,7 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				4917027B309F5540000F844E /* AppShortcuts.xcstrings in Resources */,
 				494A66693097521E0035BD6E /* Localizable.xcstrings in Resources */,
 			);
 		};
