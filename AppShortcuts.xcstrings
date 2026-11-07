@@ -1,0 +1,33 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Add an expense in ${applicationName}" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringSet" : {
+            "state" : "new",
+            "values" : [
+              "Add an expense in ${applicationName}",
+              "Add a ${category} expense in ${applicationName}",
+              "Register a new ${category} expense in ${applicationName}",
+              "Create a new ${category} expense in ${applicationName}"
+            ]
+          }
+        },
+        "es" : {
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Añade un gasto en ${applicationName}",
+              "Añade un gasto de ${category} en ${applicationName}",
+              "Registra un nuevo gasto de ${category} en ${applicationName}",
+              "Crea un nuevo gasto de ${category} en ${applicationName}"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.3"
+}
