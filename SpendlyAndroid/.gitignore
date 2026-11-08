@@ -16,3 +16,8 @@ local.properties
 /.idea
 /app/build
 
+
+# Release signing
+keystore.properties
+*.jks
+*.keystore

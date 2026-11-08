@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outline version of the logo for themed icons: only the alpha channel is used. -->
+    <group
+        android:scaleX="0.0864"
+        android:scaleY="0.0864"
+        android:translateX="9.8"
+        android:translateY="6.0">
+        <group
+            android:pivotX="512"
+            android:pivotY="500"
+            android:rotation="-5">
+            <path
+                android:fillColor="#000000"
+                android:pathData="M388,691a31,31 0 0 1 62,0v58a31,31 0 0 1 -62,0z M574,691a31,31 0 0 1 62,0v58a31,31 0 0 1 -62,0z M156,470h58a26,26 0 0 1 0,52h-58a26,26 0 0 1 0,-52z M810,470h58a26,26 0 0 1 0,52h-58a26,26 0 0 1 0,-52z M410,470a28,42 0 1 0 56,0a28,42 0 1 0 -56,0z M558,470a28,42 0 1 0 56,0a28,42 0 1 0 -56,0z" />
+            <path
+                android:pathData="M244,290h536a52,52 0 0 1 52,52v296a52,52 0 0 1 -52,52h-536a52,52 0 0 1 -52,-52v-296a52,52 0 0 1 52,-52z M462,548Q512,598 562,548"
+                android:strokeColor="#000000"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"
+                android:strokeWidth="26" />
+        </group>
+    </group>
+</vector>
