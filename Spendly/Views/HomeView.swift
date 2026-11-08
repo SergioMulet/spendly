@@ -56,12 +56,12 @@ struct HomeView: View {
                             Spacer()
                             Text(group.total, format: .currency(code: viewModel.currencyCode))
                         }
-                    }
-                    .swipeActions {
-                        Button(role: .destructive) {
-                            Task { await viewModel.delete(group) }
-                        } label: {
-                            Label("Delete", systemImage: "trash")
+                        .swipeActions {
+                            Button(role: .destructive) {
+                                Task { await viewModel.delete(group) }
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
                         }
                     }
                 }
